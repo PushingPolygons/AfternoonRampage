@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main/Main.gd" type="Script" id=2]
 [ext_resource path="res://Obstacle/Obstacle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Gift/Gift.tscn" type="PackedScene" id=4]
 [ext_resource path="res://DeliveryBox/DeliveryBox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Main/menu_bg.png" type="Texture" id=6]
+[ext_resource path="res://Main/kyle_theme.tres" type="Theme" id=7]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
@@ -46,3 +48,107 @@ position = Vector2( 0.629959, 0 )
 [node name="DeliveryBox" parent="YSort" instance=ExtResource( 5 )]
 position = Vector2( 793.218, 298.364 )
 scale = Vector2( 2, 2 )
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="UI"]
+margin_left = 274.0
+margin_top = 77.0
+margin_right = 648.0
+margin_bottom = 307.0
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tabs" type="Tabs" parent="UI/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 38.0
+margin_right = -4.0
+margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gift5" parent="UI/TabContainer/Tabs" instance=ExtResource( 4 )]
+position = Vector2( 54, 46 )
+linear_damp = 50.0
+angular_damp = 50.0
+gift = 2
+
+[node name="Tabs2" type="Tabs" parent="UI/TabContainer"]
+visible = false
+modulate = Color( 0.45098, 0.207843, 0.207843, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 38.0
+margin_right = -4.0
+margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorPicker" type="ColorPicker" parent="UI/TabContainer/Tabs2"]
+margin_left = 39.0
+margin_top = 26.0
+margin_right = 347.0
+margin_bottom = 488.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tabs3" type="Tabs" parent="UI/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Button" parent="UI"]
+margin_left = 807.0
+margin_top = 49.0
+margin_right = 966.0
+margin_bottom = 94.0
+text = "Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Button" parent="UI"]
+margin_left = 808.0
+margin_top = 141.0
+margin_right = 967.0
+margin_bottom = 186.0
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="color_changed" from="UI/TabContainer/Tabs2/ColorPicker" to="." method="_on_ColorPicker_color_changed"]
+[connection signal="pressed" from="UI/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="UI/Quit" to="." method="_on_Quit_pressed"]

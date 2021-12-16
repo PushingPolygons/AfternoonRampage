@@ -28,3 +28,14 @@ func _ready():
 func TestPrint(message: String):
 	print(message)
 
+
+
+func _on_Start_pressed():
+	$UI.hide()
+
+func _on_Quit_pressed():
+	get_tree().quit()
+
+
+func _on_ColorPicker_color_changed(color):
+	pass # Replace with function body.
