@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main/Main.gd" type="Script" id=2]
@@ -7,6 +7,40 @@
 [ext_resource path="res://DeliveryBox/DeliveryBox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Main/menu_bg.png" type="Texture" id=6]
 [ext_resource path="res://Main/kyle_theme.tres" type="Theme" id=7]
+[ext_resource path="res://Gift/Egg.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Content/Materials/EggShell.tres" type="Material" id=9]
+[ext_resource path="res://Content/Materials/LimeShader.tres" type="Shader" id=10]
+
+[sub_resource type="CubeMesh" id=6]
+size = Vector3( 300, 2, 300 )
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0.378906, 0.127289, 0.127289, 1 )
+
+[sub_resource type="BoxShape" id=9]
+extents = Vector3( 49.312, 1, 49.1643 )
+
+[sub_resource type="PrismMesh" id=5]
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = ExtResource( 10 )
+shader_param/PrimaryColor = null
+
+[sub_resource type="CylinderMesh" id=3]
+top_radius = 0.619
+bottom_radius = 1.699
+
+[sub_resource type="CylinderMesh" id=4]
+top_radius = 0.276
+radial_segments = 7
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = ExtResource( 10 )
+shader_param/PrimaryColor = null
+
+[sub_resource type="CylinderShape" id=10]
+radius = 1.84358
+height = 5.04292
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
@@ -50,6 +84,7 @@ position = Vector2( 793.218, 298.364 )
 scale = Vector2( 2, 2 )
 
 [node name="UI" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 7 )
@@ -109,10 +144,10 @@ __meta__ = {
 }
 
 [node name="ColorPicker" type="ColorPicker" parent="UI/TabContainer/Tabs2"]
-margin_left = 39.0
-margin_top = 26.0
-margin_right = 347.0
-margin_bottom = 488.0
+margin_left = 75.0
+margin_top = 62.0
+margin_right = 383.0
+margin_bottom = 524.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -122,7 +157,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 38.0
 margin_right = -4.0
 margin_bottom = -4.0
 __meta__ = {
@@ -148,6 +183,60 @@ text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="World3D" type="Spatial" parent="."]
+
+[node name="StaticBody" type="StaticBody" parent="World3D"]
+transform = Transform( 1, 0, 0, 0, 0.985447, -0.169986, 0, 0.169986, 0.985447, 0, 0, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Ground" type="MeshInstance" parent="World3D/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 0.999992, 0.00399679, 0, -0.00399679, 0.999992, 0, -0.797897, 0 )
+mesh = SubResource( 6 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="World3D/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 0.999992, 0.00399679, 0, -0.00399679, 0.999992, 0, -0.797897, 0 )
+shape = SubResource( 9 )
+
+[node name="Egg" parent="World3D" instance=ExtResource( 8 )]
+transform = Transform( 0.832061, 0.554685, 0, -0.554685, 0.832061, 0, 0, 0, 1, 0, 13.1954, -10.5662 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="World3D"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1249, 2.57589, 1.60296 )
+mesh = SubResource( 5 )
+material/0 = SubResource( 11 )
+
+[node name="CameraPivot" type="Spatial" parent="World3D"]
+transform = Transform( 1, 0, 0, 0, 0.893614, 0.448836, 0, -0.448836, 0.893614, 0, 0, 0 )
+
+[node name="Camera" type="Camera" parent="World3D/CameraPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 22.0033 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="World3D"]
+transform = Transform( 1, 0, 0, 0, 0.42996, 0.902848, 0, -0.902848, 0.42996, 6.76887, 2.77547, 0.0970631 )
+shadow_enabled = true
+
+[node name="StaticBody2" type="StaticBody" parent="World3D"]
+
+[node name="DownCone" type="MeshInstance" parent="World3D/StaticBody2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.902747, 1.85636, 0.139762 )
+mesh = SubResource( 3 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 9 )
+
+[node name="UpCone" type="MeshInstance" parent="World3D/StaticBody2"]
+transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -0.902747, 4.09086, 0.139763 )
+mesh = SubResource( 4 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="World3D/StaticBody2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.917526, 2.62888, 0 )
+shape = SubResource( 10 )
 
 [connection signal="color_changed" from="UI/TabContainer/Tabs2/ColorPicker" to="." method="_on_ColorPicker_color_changed"]
 [connection signal="pressed" from="UI/Start" to="." method="_on_Start_pressed"]

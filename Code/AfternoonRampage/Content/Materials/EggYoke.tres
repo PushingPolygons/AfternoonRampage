@@ -1,0 +1,7 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://Content/Materials/istockphoto-481248302-170667a.jpg" type="Texture" id=1]
+
+[resource]
+albedo_color = Color( 0.913725, 0.941176, 0.0392157, 1 )
+albedo_texture = ExtResource( 1 )
